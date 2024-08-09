@@ -1,0 +1,85 @@
+Middleware
+* what are Middleware 
+* how to make Middleware
+* apply Middleware on routes
+* types of Middleware
+
+NOTE: Middleware can only be used on routes.
+
+
+Q1- what is Middleware
+and- this are some functions which are only used with routes,with the help of Middleware we can access 
+     request and response and can also modify
+
+
+     types of Middleware
+      application level Middleware   (by default work on every routes)
+      routes level Middleware         (can  work with one and group of routes)  
+      erro handling Middleware
+      built-in Middleware
+      third party Middleware
+
+
+
+
+....................................................................................................
+      application Middleware: it works on every routes,so only drawback is it cannot be applied  
+                              on single routes
+
+
+                    let express = require('express');
+let app =express();
+let reqFilter=(req,resp,next)=>{
+     
+    if(!req.query.age){
+        resp.send('please enter your age')
+    }
+    else if(req.query.age<18){
+        resp.send('age must be greater than 18')
+    }
+    else{
+        next();
+    }
+
+     //untill you don't apply this next() function your page will just loading
+}
+
+app.use(reqFilter); 
+
+app.get('/',(req,resp)=>{
+    resp.send('welcome to home page')
+})
+
+app.get('/users',(req,resp)=>{
+    resp.send('welcome to user page')
+})
+
+app.get('/about',(req,resp)=>{
+    resp.send('ABOUT Page is here.')
+})
+
+app.listen(8000)
+
+................................................................................................
+routes level Middleware: routes level Middleware is only where you want 
+
+
+
+let express = require('express');
+let app =express();
+let reqFilter=(req,resp,next)=>{
+     
+    if(!req.query.age){
+        resp.send('please enter your age')
+    }
+    else if(req.query.age<18){
+        resp.send('age must be greater than 18')
+    }
+    else{
+        next();
+    }
+}
+
+app.get('/',reqFilter,(req,resp)=>{
+    resp.send('welcome to home page')
+})
